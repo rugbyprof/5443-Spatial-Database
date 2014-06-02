@@ -2,3 +2,5 @@
 =====================
 
 Midwestern State University Spatial Database course.
+
+I just edited the readme...
