@@ -18,15 +18,14 @@ class GraphBuilder{
         $this->CityArray = array();
         $this->HighWays = array();
         
-        //$this->BuildEdgeFile();
+
         $this->BuildVertexFile();
-        //$this->CreateRelationships();
+
     }
 
 
     function CreateRelationships(){        
         echo"Creating Relationships...\n";
-        //return array($distanceSegment, $closest_point_on_segment_X, $closest_point_on_segment_Y);
 
         echo"Done...\n";
     }
@@ -58,7 +57,7 @@ class GraphBuilder{
             $RoadType = ltrim($EdgeObject->features[$i]->properties->FULLNAME);
             if(($RoadType[0] == 'I' || $RoadType[0] == 'U' ) && ($RoadType[1]='-' || $RoadType[1]='S')){
                 $geom = geoPHP::load(json_encode($EdgeObject->features[$i]->geometry),'json');
-                //echo $geom->numPoints()."\n";
+
                 $this->HighWays[$Id] = array('Id'=>$Id,
                                        'Name'=>str_replace(' ', '',$EdgeObject->features[$i]->properties->FULLNAME),
                                        'Length'=>round($geom->greatCircleLength()*0.000621371,2),        //meters to miles
@@ -68,7 +67,7 @@ class GraphBuilder{
             }
         }
         $fp = fopen("Edges.txt","w");
-        //$json = json_encode($this->HighWays);
+
         foreach($this->HighWays as $edge){
             fwrite($fp,$edge['Id']." ".$edge['Name']." ".$edge['Length']." ".$edge['NumPoints']."\n");
             foreach($edge['Geometry'] as $latlon){
@@ -119,7 +118,7 @@ class GraphBuilder{
             if(!$this->CityArray[$i]['Print'])
                 $this->CityArray[$i]['Print'] = $this->FarEnoughAway($Lat,$Lon);
         }
-        //print_r($this->CityArray);
+
         $fp = fopen("Vertices.txt","w");
         for($i=0;$i<sizeof($this->CityArray);$i++){
             if($this->CityArray[$i]['Print']){
@@ -153,7 +152,6 @@ class GraphBuilder{
 
 function point_to_line_segment_distance($startX,$startY, $endX,$endY, $pointX,$pointY) {
 
-    // Adapted from Philip Nicoletti's function, found here: http://www.codeguru.com/forum/printthread.php?t=194400
 
     $r_numerator = ($pointX - $startX) * ($endX - $startX) + ($pointY - $startY) * ($endY - $startY);
     $r_denominator = ($endX - $startX) * ($endX - $startX) + ($endY - $startY) * ($endY - $startY);
@@ -207,7 +205,6 @@ function greatCircleLength($lat1,$lon1,$lat2,$lon2,$radius = 6378137) {
             sin($lat1) * sin($lat2) +
               cos($lat1) * cos($lat2) * cos($dlon)
           );
-    // Returns length in miles.
     return round($length * 0.000621371,2);
 }
 
