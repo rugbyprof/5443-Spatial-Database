@@ -3,31 +3,25 @@
 ---
 
 #### SELECT , FROM , WHERE 
-
+Example:
 ```SQL
 SELECT yr, city 
 FROM games
 WHERE yr = 2004
 ```
-
 Results:
-
 | yr  |	city  |
 |-----|------ |
 |2004 |	Athens | 
-
-
 ---
 ### IN
-
+Example:
 ```SQL
 SELECT population
 FROM world
 WHERE name IN ('France','Germany','Spain')
 ```
-
 Result:
-
 | population | 
 | ---------- |
 |  65350000  |
