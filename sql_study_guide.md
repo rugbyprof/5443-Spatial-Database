@@ -9,11 +9,12 @@ SELECT yr, city
 FROM games
 WHERE yr = 2004
 ```
-
 Results:
+
 | yr  |	city  |
 |-----|------ |
 |2004 |	Athens | 
+
 ---
 ### IN
 Example:
