@@ -26,11 +26,11 @@ WHERE name IN ('France','Germany','Spain')
 ---
 Result:
 ---
+
 ---
-population
-65350000
-81874000
-46163116
+population: 65350000 
+population: 81874000
+population: 46163116
 ---
 
 ---
