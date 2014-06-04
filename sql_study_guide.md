@@ -1,5 +1,5 @@
 ---
-### SQL TOPICS
+### SQL Topics Overview
 ---
 
 #### SELECT , FROM , WHERE 
@@ -46,7 +46,7 @@ Results:
 |Zimbabwe|
 
 ---
-### SOME FUNCTIONS
+### PERTINENT FUNCTIONS
 ---
 
 #### CURRENT_TIMESTAMP OR NOW() OR UTC_TIMESTAMP()
@@ -87,12 +87,12 @@ Results:
 
 ----
 
-#### EXTRACT (YEAR,MONTH,DAY,HOUR,MINUTE,SECOND)
+#### EXTRACT [YEAR : MONTH : DAY : HOUR : MINUTE : SECOND]
 
 ```SQL
 SELECT EXTRACT(YEAR FROM now()) AS OrderYear,
-EXTRACT(MONTH FROM now()) AS OrderMonth,
-EXTRACT(DAY FROM now()) AS OrderDay
+EXTRACT(MONTH FROM CURRENT_TIMESTAMP) AS OrderMonth,
+EXTRACT(DAY FROM UTC_TIMESTAMP()) AS OrderDay
 ```
 Results:
 
@@ -104,8 +104,36 @@ Results:
 
 #### COUNT
 
+```SQL
+SELECT COUNT(*) 
+FROM table
+WHERE some_column = 'some_value'
+```
 
 #### SUM
 
+```SQL
+SELECT sum(integer_value) 
+FROM table
+WHERE some_column = 'some_value' /* or LIKE 'some_value' or IN ('some','list','of','values') */
+```
+
+#### SUB SELECTS
+
+```SQL
+SELECT balance, keepplace, startdate
+FROM placement, (
+  SELECT balance AS B, MAX(startdate) AS S
+   FROM placement
+  GROUP BY balance) X
+WHERE startdate = X.S
+```
+
+#### JOINS
+
+```SQL
+SELECT player,stadium
+FROM game JOIN goal ON (id=matchid)
+```
 
 
