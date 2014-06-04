@@ -22,24 +22,21 @@ SELECT population
 FROM world
 WHERE name IN ('France','Germany','Spain')
 ```
-
 Result:
+
 | population | 
 | ---------- |
 |  65350000  |
 |  81874000  |
 |  46163116  |
 
-
 ---
-
 ### LIKE & WILDCARD '%'
 
 ```SQL
 SELECT name FROM bbc
 WHERE name LIKE 'Z%'
 ```
-
 Results:
 
 | name |
@@ -56,13 +53,11 @@ Results:
 ```SQL
 SELECT CURRENT_TIMESTAMP , NOW() , UTC_TIMESTAMP()
 ```
-
 Results:
 
 | CURRENT_TIMESTAMP | NOW()	| UTC_TIMESTAMP() |
 |-------------------|-------|-----------------|
 |2014-06-04 14:10:05|	2014-06-04 14:10:05	|2014-06-04 13:10:05|
-
 
 ----
 
@@ -78,14 +73,11 @@ Results:
 |----------------|
 |2014-06-04 14:11:31    |
 
-
-
 #### UNIX_TIMESTAMP
 
 ```SQL
 SELECT UNIX_TIMESTAMP()
 ```
-
 Results:
 
 |UNIX_TIMESTAMP()|
@@ -101,9 +93,7 @@ SELECT EXTRACT(YEAR FROM now()) AS OrderYear,
 EXTRACT(MONTH FROM now()) AS OrderMonth,
 EXTRACT(DAY FROM now()) AS OrderDay
 ```
-
 Results:
-
 
 |OrderYear	| OrderMonth | OrderDay|
 |-----------|------------|---------|
