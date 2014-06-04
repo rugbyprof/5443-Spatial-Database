@@ -7,5 +7,19 @@ title: Sql Study Guide
 - FROM
 - WHERE
 - IN
+
+```SQL
+SELECT SUM(population) 
+FROM world
+WHERE name IN ('France','Germany','Spain')
+```
+
 - LIKE
 - WILDCARD '%'
+- SOME FUNCTIONS
+    - CURRENT_TIMESTAMP OR NOW() OR UTC_TIMESTAMP()
+    - FROM_UNIXTIME
+    - UNIX_TIMESTAMP
+    - EXTRACT (YEAR,MONTH,DAY,HOUR,MINUTE,SECOND)
+    - COUNT
+    - SUM
