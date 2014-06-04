@@ -9,6 +9,7 @@ SELECT yr, city
 FROM games
 WHERE yr = 2004
 ```
+
 Results:
 | yr  |	city  |
 |-----|------ |
@@ -21,6 +22,7 @@ SELECT population
 FROM world
 WHERE name IN ('France','Germany','Spain')
 ```
+
 Result:
 | population | 
 | ---------- |
