@@ -36,7 +36,7 @@ more than this.
 
 
 
-#### 2) Coding Start:
+#### 2) Starter Code:
 
 Create a folder called `PolygonOverlay` and place it in your document root. The document root, is the folder your local dev environment is configured to look for web pages.
 
