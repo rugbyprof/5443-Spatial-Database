@@ -63,6 +63,8 @@ JOIN some join clause
 - Create two tables in your database on cs2.
 - One table is called Planets and the second is called Probes.
 - Choose types that BEST FIT this data, and that MINIMIZE table space.
+- You will lose points for misspelling the table names / column names.
+- You will really lose points for not choosing the correct data types (because your queries will suffer).
 
 (1) Create `Planets`
 
@@ -101,3 +103,4 @@ JOIN some join clause
 - (10) Write an SQL query which shows the planet with the longest year. Your query should return 'Pluto'.
 - (11) Write an SQL query that shows all the gas giant planets. Your query should return a list of planets.
 - (12) Write an SQL query that show all planets with at least one moon. Your query should return a list of planets.
+- (13) Write a SQL query that shows each planets name, and a probe if it has one, or blank if it doesn't. Think some kind of join (left or right).
