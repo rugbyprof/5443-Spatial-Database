@@ -1,7 +1,7 @@
 ##Assignment 2 - Drawing a polygon on a map.
 
 #### Due: Wednesday Jun 11th by 12:20
-<span style="font-size:11px">
+<span style="font-size:10px">
 Assignment adapted from this article: 
 http://www.maptechnica.com/how-to/example/how-to-draw-a-basic-polygon-in-googe-maps</span>
 #### Important Instructions for writing code in my class:
@@ -36,7 +36,7 @@ more than this.
 
 
 
-#### 2) Coding Start:
+#### 2) Starter Code:
 
 Create a folder called `PolygonOverlay` and place it in your document root. The document root, is the folder your local dev environment is configured to look for web pages.
 
