@@ -80,9 +80,9 @@ JOIN some join clause
 
 (2) Create `Probes`
 
-+------------+------+---------+
+
 | name       | year | dest    |
-+------------+------+---------+
+|------------|------|---------|
 | Pioneer 5  | 1960 | sun     |
 | Mariner 10 | 1974 | Mercury |
 | Messenger  | 2008 | Mercury |
@@ -90,7 +90,7 @@ JOIN some join clause
 | Viking     | 1976 | Mars    |
 | Cassini    | 2000 | Jupiter |
 | Galileo    | 1995 | Jupiter |
-+------------+------+---------+
+
 
 #### Part Two: SQL Queries
 
