@@ -79,6 +79,7 @@ JOIN some join clause
 | Pluto	    | 1	        | Rocky	 | 247.7        |
 
 (2) Create `Probes`
+
 +------------+------+---------+
 | name       | year | dest    |
 +------------+------+---------+
