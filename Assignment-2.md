@@ -201,6 +201,8 @@ Some helpful code snippets:
 SELECT AsText(SHAPE) FROM `world_borders`
 ```
 
+This does the same as the function `convert_wkt_to_poly_arr`. You can use this if you like, but make sure you place it in your `functions.php` file.
+
 ```php
 function sql_to_coordinates($blob)
     {
