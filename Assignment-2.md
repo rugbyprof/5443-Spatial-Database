@@ -1,4 +1,4 @@
-##Assignment 2 - Drawing a polygon on a map.
+##Assignment 2 - Drawing polygon(s) on a map.
 
 #### Due: Friday Jun 13th by 12:20
 <span style="font-size:10px">
