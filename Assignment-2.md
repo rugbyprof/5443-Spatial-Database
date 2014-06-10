@@ -188,10 +188,33 @@ function convert_wkt_to_poly_arr($wkt_str)
 
 
 
-#### 3) Dynamic Polygon Display
+### 3) Dynamic Polygon Display
 
-To be continued....
+1. Display a multi-select field that contains a list of all countries that are currently in our database of world borders.
+2. When a user chooses 1 or more countries (and submits the form), select the coordinates of each country from the database and display randomly colored polygon over each country.
+3. The map should be displayed above that map even after submission so the user can choose a different country (or set of countries).
 
+
+Some helpful code snippets:
+
+```sql
+SELECT AsText(SHAPE) FROM `world_borders`
+```
+
+```php
+function sql_to_coordinates($blob)
+    {
+        $blob = str_replace("))", "", str_replace("POLYGON((", "", $blob));
+        $coords = explode(",", $blob);
+        $coordinates = array();
+        foreach($coords as $coord)
+        {
+            $coord_split = explode(" ", $coord);
+            $coordinates[]=array("lat"=>$coord_split[0], "lng"=>$coord_split[1]);
+        }
+        return $coordinates;
+    }
+```
 
 
 
