@@ -1,6 +1,6 @@
 ##Assignment 2 - Drawing a polygon on a map.
 
-#### Due: Wednesday Jun 11th by 12:20
+#### Due: Friday Jun 13th by 12:20
 <span style="font-size:10px">
 Assignment adapted from this article: 
 http://www.maptechnica.com/how-to/example/how-to-draw-a-basic-polygon-in-googe-maps</span>
