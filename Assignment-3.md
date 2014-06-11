@@ -20,3 +20,4 @@ CREATE TABLE IF NOT EXISTS `cities` (
   SPATIAL KEY `SHAPE` (`SHAPE`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=607 ;
 ```
+Place your solution in your Github repository.

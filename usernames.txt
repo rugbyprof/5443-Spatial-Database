@@ -12,3 +12,34 @@ avamulapalli
 vayanala
 yamaraneni
 vthummala
+
+./5443_create_db.sh sgarlapati sgarlapati Gohj4ooy
+./5443_create_db.sh damarneni damarneni ahFuu5ah
+./5443_create_db.sh vdeshmukh vdeshmukh Saich7Di
+./5443_create_db.sh snaveen snaveen Oloxae6e
+./5443_create_db.sh mkomuravelly mkomuravelly Ahfeez1r
+./5443_create_db.sh akalaru akalaru aa9ohDuw
+./5443_create_db.sh kbadana kbadana pa7phuCh
+./5443_create_db.sh thackbarth thackbarth og1cee1E
+./5443_create_db.sh skotiyala skotiyala Yi0keek6
+./5443_create_db.sh rveeravalli rveeravalli teo7Pup0
+./5443_create_db.sh avamulapalli avamulapalli aeJ4ohhu
+./5443_create_db.sh vayanala vayanala choRai7c
+./5443_create_db.sh yamaraneni yamaraneni ahbe2ooK
+./5443_create_db.sh vthummala vthummala Gu0xohTh
+
+GRANT ALL PRIVILEGES ON akalaru.* TO 'akalaru'@'%' IDENTIFIED BY 'aa9ohDuw';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON sgarlapati.* TO 'sgarlapati'@'%' IDENTIFIED BY 'Gohj4ooy';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON damarneni.* TO 'damarneni'@'%' IDENTIFIED BY 'ahFuu5ah';# MySQL returned an empty result set (i.e. zero rows);
+GRANT ALL PRIVILEGES ON vdeshmukh.* TO 'vdeshmukh'@'%' IDENTIFIED BY 'Saich7Di';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON snaveen.* TO 'snaveen'@'%' IDENTIFIED BY 'Oloxae6e';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON mkomuravelly.* TO 'mkomuravelly'@'%' IDENTIFIED BY 'Ahfeez1r';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON akalaru.* TO 'akalaru'@'%' IDENTIFIED BY 'akalaru';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON kbadana.* TO 'kbadana'@'%' IDENTIFIED BY 'pa7phuCh';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON thackbarth.* TO 'thackbarth'@'%' IDENTIFIED BY 'og1cee1E';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON skotiyala.* TO 'skotiyala'@'%' IDENTIFIED BY 'Yi0keek6';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON rveeravalli.* TO 'rveeravalli'@'%' IDENTIFIED BY 'teo7Pup0';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON avamulapalli.* TO 'avamulapalli'@'%' IDENTIFIED BY 'aeJ4ohhu';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON vayanala.* TO 'vayanala'@'%' IDENTIFIED BY 'choRai7c';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON yamaraneni.* TO 'yamaraneni'@'%' IDENTIFIED BY 'ahbe2ooK';# MySQL returned an empty result set (i.e. zero rows).
+GRANT ALL PRIVILEGES ON vthummala.* TO 'vthummala'@'%' IDENTIFIED BY 'Gu0xohTh';# MySQL returned an empty result set (i.e. zero rows).
