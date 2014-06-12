@@ -12,3 +12,10 @@ at http://download.geofabrik.de/
 ```bash
 curl —location —globoff http://download.geofabrik.de/north-america/us/texas-latest.osm.bz2 -o texas.osm.bz2
 ```
+```bash
+bunzip2 texas.osm.bz2 
+```
+
+```bash
+/usr/local/bin/osmosis --read-xml texas.osm --tf reject-relations --tf reject-ways --tf accept-nodes amenity=restaurant --write-xml restaurants.osm
+```
