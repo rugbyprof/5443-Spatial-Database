@@ -4,6 +4,12 @@
 
 [OgrInfo](http://www.gdal.org/ogrinfo.html)
 
+Supports many different vector formats
+- ESRI formats such as shapefiles, personal geodatabases and ArcSDE
+- Other software such as MapInfo, GRASS, Microstation
+- Open formats such as TIGER/Line, SDTS, GML, KML
+- Databases such as MySQL, PostgreSQL, Oracle Spatial, Informix, ODBC
+
 ```bash
 ogrinfo TM_WORLD_BORDERS-0.3.shp -al -so 
 
@@ -38,3 +44,4 @@ SUBREGION: Integer (3.0)
 LON: Real (8.3)
 LAT: Real (7.3)
 ```
+
