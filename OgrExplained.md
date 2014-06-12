@@ -13,7 +13,6 @@ Output:
 >
 INFO: Open of `TM_WORLD_BORDERS-0.3.shp'
       using driver `ESRI Shapefile' successful.
-
 Layer name: TM_WORLD_BORDERS-0.3
 Geometry: Polygon
 Feature Count: 246
