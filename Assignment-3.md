@@ -218,7 +218,163 @@ function sql_to_coordinates($blob)
     }
 ```
 
+PHP code from class:
 
+```php
+<?php
+	// Create connection
+	$con=mysqli_connect("localhost","spatial","spatial","Spatial_Course");
+
+	// Check connection
+	if (mysqli_connect_errno()) {
+	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	}
+	
+	unset($Coords);
+	
+	print_r($_GET);
+	
+	
+	if(isset($_POST['Country'])){
+		$id = $_POST['Country'];
+		$result = $con->query("SELECT asText(SHAPE) as border
+							   FROM `world_borders` 
+							   WHERE CountryID = '{$id}'");
+								   
+			$Result = $result->fetch_assoc();
+
+			$Coords = sql_to_coordinates($Result['border']);
+			//echo"<pre>";
+			//print_r($Coords);
+			//echo"</pre>";
+	}
+	if(isset($_POST['cars'])){
+		print_r($_POST['cars']);
+	}
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polygon</title>
+    <style>
+      #map-canvas {
+        height: 600px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+// This example creates a simple polygon representing the Bermuda Triangle.
+
+function initialize() {
+  var mapOptions = {
+    zoom: 5,
+	<?php
+		$center = $Coords[sizeof($Coords)/2];
+	?>
+    center: new google.maps.LatLng(<?=$center['lat']?>,<?=$center['lng']?>),
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+
+  var bermudaTriangle;
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  // Define the LatLng coordinates for the polygon's path.
+  var triangleCoords = [
+	<?php
+	array_shift($Coords);
+	if(isset($Coords)){
+		foreach($Coords as $c){
+			$lat = $c['lat'];
+			$lng = $c['lng'];
+			$lat = str_replace("(","",$lat);
+			$lng = str_replace("(","",$lng);
+			$lat = str_replace(")","",$lat);
+			$lng = str_replace(")","",$lng);
+			echo "new google.maps.LatLng({$lat},{$lng}),\n";
+		}
+	}
+	?>
+  ];
+
+  // Construct the polygon.
+  bermudaTriangle = new google.maps.Polygon({
+    paths: triangleCoords,
+    strokeColor: '#<?=random_color()?>',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#<?=random_color()?>',
+    fillOpacity: 0.35
+  });
+
+  bermudaTriangle.setMap(map);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+	<div>
+		<form action="index.php" method="GET">
+			Country:<select name="Country">
+			echo"<option value=" "> </option>";
+			<?php
+			$result = $con->query("SELECT CountryID,name 
+								   FROM `world_borders` 
+								   ORDER BY name");
+								   
+			while($row = $result->fetch_assoc()){
+				echo"<option value=\"{$row['CountryID']}\">{$row['name']}</option>";
+			}
+			?>
+			</select>
+			<?php
+			$result = $con->query("SELECT CountryID,name 
+								   FROM `world_borders` 
+								   ORDER BY name");
+			?>
+			<select name="Countries[]" multiple>				   
+			<?php
+			while($row = $result->fetch_assoc()){
+				echo"<option value=\"{$row['CountryID']}\">{$row['name']}</option>";
+			}
+			?>
+			<input type="submit" name="submit" value="Get Country">
+		</form>
+	</div>
+    <div id="map-canvas"></div>
+  </body>
+</html>
+
+<?php
+function sql_to_coordinates($blob)
+    {
+        $blob = str_replace("))", "", str_replace("POLYGON((", "", $blob));
+        $coords = explode(",", $blob);
+        $coordinates = array();
+        foreach($coords as $coord)
+        {
+            $coord_split = explode(" ", $coord);
+            $coordinates[]=array("lat"=>$coord_split[0], "lng"=>$coord_split[1]);
+        }
+        return $coordinates;
+    }
+	
+	function random_color_part() {
+		return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
+	}
+
+	function random_color() {
+		return random_color_part() . random_color_part() . random_color_part();
+	}
+?>
+```
 
 [1]: https://cdn1.iconfinder.com/data/icons/stilllife/24x24/filesystems/gnome-fs-directory.png
 [2]: http://png-2.findicons.com/files/icons/2360/spirit20/20/file_php.png
