@@ -10,7 +10,7 @@ ogrinfo TM_WORLD_BORDERS-0.3.shp -al -so
 
 Output:
 
->
+```
 INFO: Open of `TM_WORLD_BORDERS-0.3.shp'
       using driver `ESRI Shapefile' successful.
 Layer name: TM_WORLD_BORDERS-0.3
@@ -34,3 +34,4 @@ REGION: Integer (3.0)
 SUBREGION: Integer (3.0)
 LON: Real (8.3)
 LAT: Real (7.3)
+```
