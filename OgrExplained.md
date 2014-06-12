@@ -1,13 +1,11 @@
 
 [OgrInfo](http://www.gdal.org/ogrinfo.html)
 
-```txt
+```bash
 ogrinfo TM_WORLD_BORDERS-0.3.shp -al -so 
-```
 
-```
--al = List all features of all layers (used instead of having to give layer names as arguments).
--so = Summary Only: supress listing of features, show only the summary information like projection, schema, feature count and extents.
+#-al = List all features of all layers (used instead of having to give layer names as arguments).
+#-so = Summary Only: supress listing of features, show only the summary information like projection, schema, feature count and extents.
 ```
 
 Output:
