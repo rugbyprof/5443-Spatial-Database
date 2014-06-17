@@ -12,10 +12,29 @@
 5. Code that errors, or doesn't run, won't be graded.
 6. If you have concerns, refer to number # 1.
 
-#### 1) Refer to [Mysql Haversine Distance](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/Mysql_Haversine_Distance.md lesson for questions) and [Osm And ShapeFiles](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/OsmAndShapeFiles.md) for background.
+#### 1) Background
+
+Refer to [Mysql Haversine Distance](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/Mysql_Haversine_Distance.md lesson for questions) and [Osm And ShapeFiles](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/OsmAndShapeFiles.md) for background.
 
 
-#### 2) Starter Code:
+#### 2) Get Data
+
+Get the tiger/data shape file from [here](ftp://ftp2.census.gov/geo/tiger/TIGER2013/MIL/tl_2013_us_mil.zip) and place it inside your MilitaryInstallations folder.
+
+Run the following command to insert it into your database:
+
+- $1 = Database Name
+- $2 = Host Name
+- $3 = User Name
+- $4 = Password
+- $5 = Shape File Name
+- $6 = Table Name (use shape file name to be safe)
+
+```bash
+ogr2ogr -f MySQL MySQL:$1,host=$2,user=$3,password=$4 $5 -nln $6 -update -overwrite -lco engine=MYISAM
+```
+
+#### 3) Getting Started:
 
 Create a folder called `MilitaryInstallations` and place it in your document root. The document root, is the folder your local dev environment is configured to look for web pages.
 
@@ -23,80 +42,11 @@ Create a file called `index.php` inside the `MilitaryInstallations` folder.
 
 Place the following code inside the file:
 
-```php
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Simple Polygon</title>
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script>
-// This example creates a simple polygon representing the Bermuda Triangle.
+> [Assignment4-starter.php](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/Assignment4-starter.php)
 
-function initialize() {
-  var mapOptions = {
-    zoom: 5,
-    center: new google.maps.LatLng(24.886436490787712, -70.2685546875),
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  };
-
-  var bermudaTriangle;
-
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-
-  // Define the LatLng coordinates for the polygon's path.
-  var triangleCoords = [
-    new google.maps.LatLng(25.774252, -80.190262),
-    new google.maps.LatLng(18.466465, -66.118292),
-    new google.maps.LatLng(32.321384, -64.75737),
-    new google.maps.LatLng(25.774252, -80.190262)
-  ];
-
-  // Construct the polygon.
-  bermudaTriangle = new google.maps.Polygon({
-    paths: triangleCoords,
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35
-  });
-
-  bermudaTriangle.setMap(map);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"></div>
-  </body>
-</html>
-```
-<span style="font-size:11px">Ref: https://developers.google.com/maps/documentation/javascript/examples/polygon-simple</span>
-
-At this point, if your work environment is setup correctly, the index.php file should work showing the resulting polygon. To display your index file:
-
-- MAMP
-    - http://localhost:8888/PolygonOverlay/
-- AMPPS
-    - http://localhost:80/PolygonOverlay/
-
-Now create a file called `db_connect.php` and place the following code in it:
+Replace the connection string that I used in the starter code with your own information.
 
 ```php
-<?php
-
 /* This file connects to your MySQL database. */
 
 // Connection constants 
@@ -156,262 +106,39 @@ function convert_wkt_to_poly_arr($wkt_str)
   return $ret_arr;
 
 }
+
+function sql_to_coordinates($blob)
+    {
+        $blob = str_replace("))", "", str_replace("POLYGON((", "", $blob));
+        $coords = explode(",", $blob);
+        $coordinates = array();
+        foreach($coords as $coord)
+        {
+            $coord_split = explode(" ", $coord);
+            $coordinates[]=array("lat"=>$coord_split[0], "lng"=>$coord_split[1]);
+        }
+        return $coordinates;
+    }
 ```
 
-`db_connect.php` and `functions.php` should both be saved in your `PolygonOverlay` folder. Your resulting directory structure should look like the following:
+`db_connect.php` and `functions.php` should both be saved in your `MilitaryInstallations` folder. Your resulting directory structure should look like the following:
 
-- ![1] PolygonOverlay
+- ![1] MilitaryInstallations
     - ![2] db_connect.php
     - ![2] functions.php
     - ![2] index.php
 
 
 
-### 3) Dynamic Polygon Display
+### 4) Dynamic Military Base Display
 
-1. Display a multi-select field that contains a list of all countries that are currently in our database of world borders.
-2. When a user chooses 1 or more countries (and submits the form), select the coordinates of each country from the database and display randomly colored polygon over each country.
-3. The map should be displayed above that map even after submission so the user can choose a different country (or set of countries).
+1. Use the click event and form that is provided for you in the [Assignment4-starter.php](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/Assignment4-starter.php) file to find
+the `N`, closest military installations to you mouse click. 
+2. Add to your form either a dropdown, or a text box that will allow the user to choose how
+many bases your map will show. 
+3. Make sure that each polygon displayed is a different color. 
 
 
-Some helpful code snippets:
-
-```sql
-SELECT AsText(SHAPE) FROM `world_borders`
-```
-
-This does the same as the function `convert_wkt_to_poly_arr`. You can use this if you like, but make sure you place it in your `functions.php` file.
-
-```php
-function sql_to_coordinates($blob)
-    {
-        $blob = str_replace("))", "", str_replace("POLYGON((", "", $blob));
-        $coords = explode(",", $blob);
-        $coordinates = array();
-        foreach($coords as $coord)
-        {
-            $coord_split = explode(" ", $coord);
-            $coordinates[]=array("lat"=>$coord_split[0], "lng"=>$coord_split[1]);
-        }
-        return $coordinates;
-    }
-```
-
-PHP code from class:
-
-```php
-<?php
-	// Create connection
-	$con=mysqli_connect("localhost","spatial","spatial","Spatial_Course");
-
-	// Check connection
-	if (mysqli_connect_errno()) {
-	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
-	
-	unset($Coords);
-	
-	print_r($_GET);
-	
-	
-	if(isset($_POST['Country'])){
-		$id = $_POST['Country'];
-		$result = $con->query("SELECT asText(SHAPE) as border
-							   FROM `world_borders` 
-							   WHERE CountryID = '{$id}'");
-								   
-			$Result = $result->fetch_assoc();
-
-			$Coords = sql_to_coordinates($Result['border']);
-			//echo"<pre>";
-			//print_r($Coords);
-			//echo"</pre>";
-	}
-	if(isset($_POST['cars'])){
-		print_r($_POST['cars']);
-	}
-?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Simple Polygon</title>
-    <style>
-      #map-canvas {
-        height: 600px;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script>
-// This example creates a simple polygon representing the Bermuda Triangle.
-
-function initialize() {
-  var mapOptions = {
-    zoom: 5,
-	<?php
-		$center = $Coords[sizeof($Coords)/2];
-	?>
-    center: new google.maps.LatLng(<?=$center['lat']?>,<?=$center['lng']?>),
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  };
-
-  var bermudaTriangle;
-
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-
-  // Define the LatLng coordinates for the polygon's path.
-  var triangleCoords = [
-	<?php
-	array_shift($Coords);
-	if(isset($Coords)){
-		foreach($Coords as $c){
-			$lat = $c['lat'];
-			$lng = $c['lng'];
-			$lat = str_replace("(","",$lat);
-			$lng = str_replace("(","",$lng);
-			$lat = str_replace(")","",$lat);
-			$lng = str_replace(")","",$lng);
-			echo "new google.maps.LatLng({$lat},{$lng}),\n";
-		}
-	}
-	?>
-  ];
-
-  // Construct the polygon.
-  bermudaTriangle = new google.maps.Polygon({
-    paths: triangleCoords,
-    strokeColor: '#<?=random_color()?>',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#<?=random_color()?>',
-    fillOpacity: 0.35
-  });
-
-  bermudaTriangle.setMap(map);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-  </head>
-  <body>
-	<div>
-		<form action="index.php" method="GET">
-			Country:<select name="Country">
-			echo"<option value=" "> </option>";
-			<?php
-			$result = $con->query("SELECT CountryID,name 
-								   FROM `world_borders` 
-								   ORDER BY name");
-								   
-			while($row = $result->fetch_assoc()){
-				echo"<option value=\"{$row['CountryID']}\">{$row['name']}</option>";
-			}
-			?>
-			</select>
-			<?php
-			$result = $con->query("SELECT CountryID,name 
-								   FROM `world_borders` 
-								   ORDER BY name");
-			?>
-			<select name="Countries[]" multiple>				   
-			<?php
-			while($row = $result->fetch_assoc()){
-				echo"<option value=\"{$row['CountryID']}\">{$row['name']}</option>";
-			}
-			?>
-			<input type="submit" name="submit" value="Get Country">
-		</form>
-	</div>
-    <div id="map-canvas"></div>
-  </body>
-</html>
-
-<?php
-function sql_to_coordinates($blob)
-    {
-        $blob = str_replace("))", "", str_replace("POLYGON((", "", $blob));
-        $coords = explode(",", $blob);
-        $coordinates = array();
-        foreach($coords as $coord)
-        {
-            $coord_split = explode(" ", $coord);
-            $coordinates[]=array("lat"=>$coord_split[0], "lng"=>$coord_split[1]);
-        }
-        return $coordinates;
-    }
-	
-	function random_color_part() {
-		return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
-	}
-
-	function random_color() {
-		return random_color_part() . random_color_part() . random_color_part();
-	}
-?>
-```
-
-Good example for showing multiple items on a map.
-```php
-// This example creates circles on the map, representing
-// populations in North America.
-
-// First, create an object containing LatLng and population for each city.
-var citymap = {};
-citymap['chicago'] = {
-  center: new google.maps.LatLng(41.878113, -87.629798),
-  population: 2714856
-};
-citymap['newyork'] = {
-  center: new google.maps.LatLng(40.714352, -74.005973),
-  population: 8405837
-};
-citymap['losangeles'] = {
-  center: new google.maps.LatLng(34.052234, -118.243684),
-  population: 3857799
-};
-citymap['vancouver'] = {
-  center: new google.maps.LatLng(49.25, -123.1),
-  population: 603502
-};
-
-var cityCircle;
-
-function initialize() {
-  // Create the map.
-  var mapOptions = {
-    zoom: 4,
-    center: new google.maps.LatLng(37.09024, -95.712891),
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  };
-
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-
-  // Construct the circle for each value in citymap.
-  // Note: We scale the area of the circle based on the population.
-  for (var city in citymap) {
-    var populationOptions = {
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map,
-      center: citymap[city].center,
-      radius: Math.sqrt(citymap[city].population) * 100
-    };
-    // Add the circle for this city to the map.
-    cityCircle = new google.maps.Circle(populationOptions);
-  }
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-```
 
 [1]: https://cdn1.iconfinder.com/data/icons/stilllife/24x24/filesystems/gnome-fs-directory.png
 [2]: http://png-2.findicons.com/files/icons/2360/spirit20/20/file_php.png
