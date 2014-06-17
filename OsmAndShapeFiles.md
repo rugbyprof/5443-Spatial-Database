@@ -136,8 +136,6 @@ if(!array_key_exists('host',$args)){
     $args['host'] = 'localhost';
 }
 
-exit;
-
 $DBNAME = $args['db'];
 $HOST = $args['host'];
 $USER = $args['user'];
@@ -157,7 +155,6 @@ foreach($files as $file){
     }
 }
 
-//print_r($filtered);
 
 foreach($filtered as $entry){
     list($file_name,$table_name) = $entry;
