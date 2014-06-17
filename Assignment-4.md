@@ -133,7 +133,7 @@ function sql_to_coordinates($blob)
 ### 4) Dynamic Military Base Display
 
 1. Use the click event and form that is provided for you in the [Assignment4-starter.php](https://github.com/rugbyprof/5443-Spatial-Database/blob/master/Assignment4-starter.php) file to find
-the `N`, closest military installations to you mouse click. 
+the `N`, closest military installations to your mouse click. 
 2. Add to your form either a dropdown, or a text box that will allow the user to choose how
 many bases your map will show. 
 3. Make sure that each polygon displayed is a different color. 
