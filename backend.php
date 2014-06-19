@@ -24,7 +24,7 @@ $sql = "
 		69*haversine(latitude,longitude,latpoint, longpoint) AS distance_in_miles
 	FROM military_installations
 	JOIN (
-	SELECT  {$_POST['lat']}  AS latpoint,  {$_POST['lng']} AS longpoint
+	    SELECT  {$_POST['lat']}  AS latpoint,  {$_POST['lng']} AS longpoint
 	) AS p
 	ORDER BY distance_in_miles
 	LIMIT 10
