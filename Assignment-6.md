@@ -32,7 +32,7 @@ Create a folder called `SpatialQueryAssignment` in your `public_html` folder. In
     - ![1] State_Borders
     - ![1] Earth_Quakes
 
-- Get the following shape files and place each on in it's corresponding folder: 
+- Get the following shape files and place each in it's corresponding folder: 
 
     - [Volcanoes](http://dds.cr.usgs.gov/pub/data/nationalatlas/volcanx020_nt00036.tar.gz) - http://dds.cr.usgs.gov/pub/data/nationalatlas/volcanx020_nt00036.tar.gz 
     - [State_Borders](http://dds.cr.usgs.gov/pub/data/nationalatlas/statesp020_nt00032.tar.gz) - http://dds.cr.usgs.gov/pub/data/nationalatlas/statesp020_nt00032.tar.gz
