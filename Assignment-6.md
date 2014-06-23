@@ -19,14 +19,14 @@ Refer to [Mysql Spatial Functions](http://dev.mysql.com/doc/refman/5.0/en/spatia
 
 #### 2) Create a project folder:
 
-Create a folder called `SpatialQueryAssignment` in your `public_html` folder. In this folder, create two files:
+Create a folder called `SpatialQueryAssignment1` in your `public_html` folder. In this folder, create two files:
 
 - ![2] index.php
 - ![2] backend.php
 
 #### 3) Get Data
 
-- Create 3 folders in your `SpatialQueryAssignment` directory:
+- Create 3 folders in your `SpatialQueryAssignment1` directory:
 
     - ![1] Volcanoes
     - ![1] State_Borders
@@ -74,7 +74,7 @@ user@cs2: ogr2ogr -f MySQL MySQL:$1,host=$2,user=$3,password=$4 quksigx020.shp -
 
 - Add your `db_connect.php` and `functions.php` to your directory. Your resulting directory structure should look like this:
 
-- ![1] SpatialQueryAssignment
+- ![1] SpatialQueryAssignment1
     - ![2] backend.php
     - ![2] db_connect.php
     - ![2] functions.php
