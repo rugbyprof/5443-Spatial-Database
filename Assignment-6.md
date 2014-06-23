@@ -47,7 +47,7 @@ Create a folder called `SpatialQueryAssignment` in your `public_html` folder. In
         - `x` means `extract` or remove from the tape archive (tar).
         - `f` tells which file to run the command on. 
 
-    - Now the shape file have been extracted and uncompressed, lets put them in your database.
+    - Now the shape files have been extracted and uncompressed, lets load them in your database.
     
 - Run the following commands to insert it into your database:
 
@@ -72,7 +72,7 @@ user@cs2: ogr2ogr -f MySQL MySQL:$1,host=$2,user=$3,password=$4 quksigx020.shp -
 ```
 #### 4) Getting Started:
 
-- Add your `db_connect.php` and `functins.php` to your directory. Your resulting directory structure should look like this:
+- Add your `db_connect.php` and `functions.php` to your directory. Your resulting directory structure should look like this:
 
 - ![1] SpatialQueryAssignment
     - ![2] backend.php
