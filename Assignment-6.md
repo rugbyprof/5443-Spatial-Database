@@ -90,8 +90,12 @@ Then rename each file to have a `.php` extension. I put `.txt` extensions so the
 
 ### 4) Actual Assignment
 
-1. To be discussed in class.
-2. I will update this document accordingly.
+1. Select all of the earth quakes in one state (and display).
+2. Select all of the rail roads that cross into one state.
+3. Select all moth occurrences that overlap (crosses) a rail road.
+4. Find any scenic rivers that are in close proximity to state parks, or something similar.
+5. 
+
 
 
 
