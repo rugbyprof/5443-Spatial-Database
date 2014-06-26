@@ -108,11 +108,10 @@ Example Form:
                   url: 'backend.php',
                   data: {
                      query: $('#QueryNum').val();
-                  },
-                  success: success,
-                  dataType: dataType
+                  }
                 }).done(function( data ) {
                     alert( "Data Loaded: " + data );
+                    jsonJSON.parse(data);
                     if(data.query_number == 1)
                         Query1Handler(data);
                     else if (data.query_number == 2)
