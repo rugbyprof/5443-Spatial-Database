@@ -95,7 +95,40 @@ Then rename each file to have a `.php` extension. I put `.txt` extensions so the
 3. Select the  (5) closest military installation to each indian reservation.
 4. For each ship port, find the closest railway station.
 
+Example Form:
 
+```html
+<head>
+<script>
+   <!-- include jquery  -->
+
+         $( "#RunQuery" ).click(function() {
+             $.ajax({
+                  type: "POST",
+                  url: 'backend.php',
+                  data: {
+                     query: $('#QueryNum').val();
+                  },
+                  success: success,
+                  dataType: dataType
+                }).done(function( data ) {
+                    alert( "Data Loaded: " + data );
+                    if(data.query_number == 1)
+                        Query1Handler(data);
+                    else if (data.query_number == 2)
+                     //
+                    //
+                    //
+                    //
+                });
+         });
+</script>
+</head
+
+<form>
+Run Query: <input type="text" id="QueryNum"> (1-4) <input ="button" id="RunQuery" value="Run Query">
+</form>
+```
 
 
 [1]: https://cdn1.iconfinder.com/data/icons/stilllife/24x24/filesystems/gnome-fs-directory.png
