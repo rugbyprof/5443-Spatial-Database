@@ -92,9 +92,8 @@ Then rename each file to have a `.php` extension. I put `.txt` extensions so the
 
 1. Select all of the earth quakes in one state (and display).
 2. Select all of the rail roads that cross into one state.
-3. Select all moth occurrences that overlap (crosses) a rail road.
-4. Find any scenic rivers that are in close proximity to state parks, or something similar.
-5. TBD
+3. Select the  (5) closest military installation to each indian reservation.
+4. For each ship port, find the closest railway station.
 
 
 
