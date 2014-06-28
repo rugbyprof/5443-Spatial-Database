@@ -8,6 +8,8 @@
  * Edited:  By Terry Griffin, organized as a CLASS for insructional purposes.
  */
 
+exit;
+
 # Include required geoPHP library and define wkb_to_json function
 include_once('geoPHP/geoPHP.inc');
 
@@ -33,7 +35,6 @@ class MyGeoJson{
         $this->Conn = new PDO("mysql:host={$this->DbHost};dbname={$this->DbName}",$this->DbUser,$this->DbPass);
     }
     
-    # Set the current query
     public function RunQuery($sql){
         
         $Data = array();
@@ -48,13 +49,10 @@ class MyGeoJson{
             print_r($this->Sql);
             exit;
         }
-        $this->Conn = NULL; 
         
         # Loop through rows to build feature arrays
         while ($row = $this->Result->fetch(PDO::FETCH_ASSOC)) {
             $temp = json_decode($this->WkbToJson($row['wkb']));
-            //print_r($temp);
-            //echo"<br><br>";
             $Data[$i]['Type'] = $temp->type;
             $Data[$i]['Coordinates'] = $temp->coordinates;
             unset($row['wkb']);
@@ -62,6 +60,8 @@ class MyGeoJson{
             $Data[$i]['properties'] = $row;
             $i++;
         }
+        
+        $this->Conn = NULL; 
         return $Data;
     }
     

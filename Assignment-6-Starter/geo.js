@@ -31,17 +31,16 @@ function initialize() {
         //console.log("Volcanoes: " + $('#volcanoes').is(':checked'));
         //console.log("Earthquakes: " + $('#earthquakes').is(':checked'));        
 
-        var echecked = $('#earthquakes').is(':checked');
-        var vchecked = $('#volcanoes').is(':checked');
+        var QueryNum = $('#QueryNum').val();
+
 
         var PostData = {
             lat:lat, 
             lng:lng , 
-            earthQuakes: echecked , 
-            volcanoes:vchecked
+            query_num: QueryNum
         }
 
-        $.post("class.geojson.php", PostData)
+        $.post("backend.php", PostData)
             .done(function( data ) {
                 //data = JSON.parse(data);
                 deleteMarkers();

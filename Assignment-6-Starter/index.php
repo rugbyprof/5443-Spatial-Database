@@ -34,34 +34,15 @@
 
         //Add a listener that runs "initialize" when page is done loading.
         google.maps.event.addDomListener(window, 'load', initialize);
-        
-        $( "#RunQuery" ).click(function() {
-            $.ajax({
-                type: "POST",
-                url: 'backend.php',
-                data: {
-                    query: $('#QueryNum').val();
-                }
-            }).done(function( data ) {
-                alert( "Data Loaded: " + data );
-                jsonJSON.parse(data);
-                if(data.query_number == 1)
-                    Query1Handler(data);
-                else if (data.query_number == 2){
-                    
-                }
-            });
-        });
     </script>
   </head>
   <body>
- <section>
+  <section>
     <div id="map-canvas"></div>
 	<div id="form-stuff">
-		Earthquakes: <input type="checkbox" id="earthquakes" value="true" checked><br>
-		Volcanoes:<input type="checkbox" id="volcanoes" value="true"><br>
+		Query Number: <input type="text" name="QueryNum" id="QueryNum" value="1"><br>
 	</div>
-</section>
+  </section>
   </body>
 </html>
 
