@@ -1,8 +1,6 @@
-# Incomplete!!
-
 ##Assignment 6 - Earthquakes in Clicked State.
 
-#### Due: Monday Jun 30th by Midnight
+#### Due: Monday Jun 30th by 12:20 (class time)
 
 #### Notice: 
 
@@ -58,19 +56,21 @@ Your going to connect to the cs2 Mysql database to get your data. Just like we t
 Your Assignment6 folder should look like:
 
 - ![1] Assignment6
-    - ![1] geoPHP (copy entire folder)
+    - ![1] geoPHP
     - ![2] backend.php
     - ![2] geo.js
     - ![2] index.php
 
 
-Since the Mysql database could not be upgraded to 5.6, and the GIS extensions were not fully available, we will scale back and simply execute 1 query, and display two features:
+Since the Mysql database could not be upgraded to 5.6, and the GIS extensions were not fully available, we will scale back and simply execute 1 query, and display 2 features:
 
 - Query:
     - Select all the earthquakes that occured within the state that was clicked 
 - Display
     - Markers for each earthquake within the state.
     - A single polygon highlighting the state that was clicked. 
+    - 
+You should be able to implement this by monday class time. It's a repeat of things already done. 
 
 [1]: https://cdn1.iconfinder.com/data/icons/stilllife/24x24/filesystems/gnome-fs-directory.png
 [2]: http://png-2.findicons.com/files/icons/2360/spirit20/20/file_php.png
