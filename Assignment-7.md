@@ -1,5 +1,7 @@
 ##Assignment 7 - Final Project.
 
+### Not Complete Until This Message is Gone!
+
 #### Due: Thursday Jul 3rd by 12:00 NOON
 
 #### Important Instructions for writing code in my class:
@@ -25,7 +27,7 @@ Create a folder called `Assignment7` in your `public_html` folder. In this folde
 - ![2]geoPHP
 - ![1]index.php
 
-### 3) Queries to execute:
+#### 3) Queries to execute:
 
 -  Given some bounding rectangle `R`:
     1. Select all features completely contained within `R`.
@@ -36,7 +38,7 @@ Create a folder called `Assignment7` in your `public_html` folder. In this folde
     3. Display all items within `r` distance from `P`. Draw a circle around this area.
     4. For each ship port, find the closest railway station.
 
-### 4) Actual Program:
+#### 4) Actual Program:
 
 
 [1]: https://cdn1.iconfinder.com/data/icons/stilllife/24x24/filesystems/gnome-fs-directory.png
