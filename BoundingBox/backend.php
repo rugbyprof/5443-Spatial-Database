@@ -1,101 +1,148 @@
 <?php
-/**
- * Title:   GeoJson (Requires https://github.com/phayes/geoPHP)
- * Notes:   Query a MySQL table or view and return the results in GeoJSON format, suitable for use in OpenLayers, Leaflet, etc.
- * Author:  Bryan R. McBride, GISP
- * Contact: bryanmcbride.com
- * GitHub:  https://github.com/bmcbride/PHP-Database-GeoJSON
- * Edited:  By Terry Griffin, organized as a CLASS for insructional purposes.
- */
+error_reporting(0);
+// lat:lat, 
+// lng:lng , 
+// earthQuakes: echecked , 
+// volcanoes:vchecked
 
-exit;
+//Establish connection to database.
+$db = new mysqli('localhost', '5443', '5443', '5443_SpatialData');
 
-# Include required geoPHP library and define wkb_to_json function
-include_once('geoPHP/geoPHP.inc');
-
-class MyGeoJson{
-    var $conn;          // connection handle for mysql pdo class
-    var $DbHost;        // e.g. localhost
-    var $DbName;        // Database name
-    var $DbPass;        // Database password
-    var $DbUser;        // Database user
-    var $GeoJsonArray;  // Result array of GeoJson data
-    var $Result;        // Sql Result Handle
-    var $Sql;           // Sql query
-
-    public function __construct($db_name,$db_user,$db_pass,$db_host){
-        $this->Sql = null;
-        $this->Result = null;
-        
-        
-        $this->DbName = $db_name;
-        $this->DbPass = $db_pass;
-        $this->DbUser = $db_user;
-        $this->DbHost = $db_host;
-        $this->Conn = new PDO("mysql:host={$this->DbHost};dbname={$this->DbName}",$this->DbUser,$this->DbPass);
-    }
-    
-    public function RunQuery($sql){
-        
-        $Data = array();
-        $i = 0;
-        $this->Sql = $sql;
-        
-        # Try query or error
-        $this->Result = $this->Conn->query($this->Sql);
-
-        if (!$this->Result) {
-            echo 'An SQL error occured.\n';
-            print_r($this->Sql);
-            exit;
-        }
-        
-        # Loop through rows to build feature arrays
-        while ($row = $this->Result->fetch(PDO::FETCH_ASSOC)) {
-            $temp = json_decode($this->WkbToJson($row['wkb']));
-            $Data[$i]['Type'] = $temp->type;
-            $Data[$i]['Coordinates'] = $temp->coordinates;
-            unset($row['wkb']);
-            unset($row['SHAPE']);          
-            $Data[$i]['properties'] = $row;
-            $i++;
-        }
-        
-        $this->Conn = NULL; 
-        return $Data;
-    }
-    
-    # Build SQL SELECT statement and return the geometry as a WKB element
-    private function WkbToJson($wkb) {
-        $geom = geoPHP::load($wkb,'wkb');
-        return $geom->out('json');
-    }
-    
-}
-/////////////////////////////////////////////////////////////////////////////////////
-//Main
-
-$MyGeo = new MyGeoJson('5443_SpatialData','5443','5443','localhost');
-
-if(isset($argv[1]) && $argv[1]=='debug' || isset($_GET['debug']) && $_GET['debug']){
-    $_POST['lat'] = 33.546;
-    $_POST['lng'] = -122.546;
+//If no connection, then kill page
+if($db->connect_errno > 0){
+    die('Unable to connect to database [' . $db->connect_error . ']');
 }
 
-//This gives us a set of polygons, and multipolygons, representing every military base.
-$Query1 = "SELECT * FROM military_installations";
-$Data1 = $MyGeo->RunQuery($Query1);
+if(isset($argv[1]) && $argv[1]=='debug' || $_GET['debug']){
+	$_POST['lat'] = 33.546;
+	$_POST['lng'] = -122.546;
+	$_POST['earthQuakes'] = true;
+	$debug = true;
+}
 
-//This gives us a set of points, representing every airport.
-$Query2 = "SELECT * FROM airports";
-$Data2 = $MyGeo->RunQuery($Query2);
+if($_POST['earthQuakes']){
+	$Poly = GetStatePolyContainsPoint($db,$_POST['lat'],$_POST['lng']);
+	$data['Poly'] = sql_to_coordinates($Poly);
+	$data['EarthQuakes'] = GetEarthQuakesWithinGeometry($db,$Poly)
+	echo json_encode($data);
+	exit;
+}
+if($_POST['volcanoes']){
 
-//Not the most efficient, but loop through each airport, and find the closest military installation
-//using our own distance function. 
+}
 
-print_r($Query2);
-        
+$sql = "
+	SELECT 
+		OGR_FID,
+		fullname, 
+		latitude, 
+		longitude,
+		NumGeometries(SHAPE) AS Multi,
+		AsText(SHAPE) as Poly, 
+		69*haversine(latitude,longitude,latpoint, longpoint) AS distance_in_miles
+	FROM military_installations
+	JOIN (
+	SELECT  {$_POST['lat']}  AS latpoint,  {$_POST['lng']} AS longpoint
+	) AS p
+	ORDER BY distance_in_miles
+	LIMIT 5
+";
+  
+$result = $db->query($sql);
+
+$Data = array();
+
+while($row = $result->fetch_assoc()){
+	if($debug){
+		print_r($row);
+	}
+	if($row['Multi']){
+		$row['Poly'] = array();
+		for($i=1;$i<=$row['Multi'];$i++){
+		    $sql = "SELECT AsText(GeometryN(SHAPE,{$i})) as P
+				    FROM military_installations 
+				    WHERE OGR_FID = '{$row['OGR_FID']}'";
+			$result2 = $db->query($sql);
+			$row2 = $result2->fetch_assoc();
+			$row['Poly'][] = sql_to_coordinates($row2['P']);
+		}
+	}else{
+		$row['Multi'] = 1;
+		$row['Poly'] = sql_to_coordinates($row['Poly']);
+	}
+	$row['Color'] = "#".random_color();
+	$Data[] = $row;
+}
+
+echo json_encode($Data);
+
+function GetEarthQuakesWithinGeometry($db,$Geometry){
+	$sql = "
+		SELECT AsText(SHAPE) as Point,
+		FROM `earth_quakes`
+		WHERE WITHIN(Point,GeomFromText({$Geometry}))
+	";
+	
+	$result = $db->query($sql);
+
+	$Data = array();
+	
+	while($row = $result->fetch_assoc()){
+		$Data[] = $row['Poly'];
+	}
+	
+	return $Data;
+}
+
+function GetCountryContainsPoint($db,$Lat,$Lon){
+	$sql = "
+		SELECT asText(SHAPE)
+		FROM world_borders A 
+		WHERE CONTAINS(A.SHAPE,GeomFromText('POINT({$Lon} {$Lat})'))
+	";
+
+	$result = $db->query($sql);
+
+	$row = $result->fetch_assoc();
+	
+	return $row['SHAPE'];
+
+}
+
+function GetStatePolyContainsPoint($db,$Lat,$Lon){
+	$sql = "
+		SELECT state,asText(SHAPE) as SHAPE
+		FROM state_borders A 
+		WHERE CONTAINS(A.SHAPE,GeomFromText('POINT({$Lon} {$Lat})'))
+	";
+
+	$result = $db->query($sql);
+
+	$row = $result->fetch_assoc();
+	
+	return $row['SHAPE'];
+
+}
+
+function sql_to_coordinates($blob)
+{
+	$blob = str_replace("))", "", str_replace("POLYGON((", "", $blob));
+	$coords = explode(",", $blob);
+	$coordinates = array();
+	foreach($coords as $coord)
+	{
+		$coord_split = explode(" ", $coord);
+		$coordinates[]=array(str_replace("\n","",$coord_split[0]),str_replace("\n","",$coord_split[1]));
+	}
+	return $coordinates;
+}
+
+function random_color_part() {
+    return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
+}
+
+function random_color() {
+    return random_color_part() . random_color_part() . random_color_part();
+}
 
 
-header('Content-type: application/json');
-echo json_encode($Data, JSON_NUMERIC_CHECK); 
