@@ -3,7 +3,7 @@ var overlays = [];
 
 //Runs when page is done loading
 function initialize() {
-    
+
     //Javascript object to help configure google map.
     var mapOptions = {
         zoom: 4,
@@ -11,7 +11,7 @@ function initialize() {
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
 
-    //Create google map, place it in 'map-canvas' element, and use 'mapOptions' to 
+    //Create google map, place it in 'map-canvas' element, and use 'mapOptions' to
     //help configure it
     map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
 
@@ -38,21 +38,21 @@ function initialize() {
             $('#lat2').text("");
             $('#lon2').text("");
         }
-        
+
         var lat1 = parseFloat($('#lat1').text());
         var lon1 = parseFloat($('#lon1').text());
         var lat2 = parseFloat($('#lat2').text());
         var lon2 = parseFloat($('#lon2').text());
-        
+
         console.log(lat1+","+lon1+","+lat2+","+lon2);
-        
-        
+
+
         var QueryNum = $('#QueryNum').val();
 
 
         var PostData = {
-            lat:lat, 
-            lng:lng , 
+            lat:lat,
+            lng:lng ,
             query_num: QueryNum
         }
 
@@ -78,7 +78,7 @@ function initialize() {
                     }
                 }
             });
-    });  
+    });
 
 }
 
@@ -100,23 +100,23 @@ function addBoundingBox(lat1,lon1,lat2,lon2){
 }
 
 function addMultiPolygon(obj){
-    
+
     color = HexColor();
 
     for (var i in obj){
         addPolygon(obj[i],color);
     }
-    
+
 }
 
 function addPolygon(obj,Color) {
-    
+
     console.log("Polygon: ");
     console.log(obj);
-    console.log(obj.length);  
-    
+    console.log(obj.length);
+
     var PolyCoords = [];
-    
+
     for (var i in obj){
         for(var j=0;j<obj[i].length;j++){
             var latlng = new google.maps.LatLng(obj[i][j][1],obj[i][j][0]);
@@ -135,7 +135,7 @@ function addPolygon(obj,Color) {
     });
 
     overlays.push(polygon); //Add polygon to global array of polygons
-    
+
 }
 
 function addPolyLine(obj,Color){
@@ -154,7 +154,7 @@ function addPolyLine(obj,Color){
         strokeWeight: 2,
         map: map
     });
-    
+
     overlays.push(polyline); //Add polygon to global array of polygons
 }
 
@@ -209,13 +209,13 @@ function iterate(o,func){
 function traverse(o,func) {
     for (var i in o) {
         func.apply(this,[i,o[i]]);
-        if (o[i] !== null && typeof(o[i])=="object") {  
+        if (o[i] !== null && typeof(o[i])=="object") {
             //going on step down in the object tree!!
             traverse(o[i],func);
         }
     }
 }
 
-function isInt(value) { 
-    return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10)); 
+function isInt(value) {
+    return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10));
 }

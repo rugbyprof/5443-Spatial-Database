@@ -1,17 +1,12 @@
 <?php
 error_reporting(0);
-// lat:lat, 
-// lng:lng , 
-// earthQuakes: echecked , 
+// lat:lat,
+// lng:lng ,
+// earthQuakes: echecked ,
 // volcanoes:vchecked
 
 //Establish connection to database.
-$db = new mysqli('localhost', '5443', '5443', '5443_SpatialData');
-
-//If no connection, then kill page
-if($db->connect_errno > 0){
-    die('Unable to connect to database [' . $db->connect_error . ']');
-}
+$Conn = new PDO("pgsql:host=localhost;dbname=5443","5443","5443");
 
 if(isset($argv[1]) && $argv[1]=='debug' || $_GET['debug']){
 	$_POST['lat'] = 33.546;
@@ -32,13 +27,13 @@ if($_POST['volcanoes']){
 }
 
 $sql = "
-	SELECT 
+	SELECT
 		OGR_FID,
-		fullname, 
-		latitude, 
+		fullname,
+		latitude,
 		longitude,
 		NumGeometries(SHAPE) AS Multi,
-		AsText(SHAPE) as Poly, 
+		AsText(SHAPE) as Poly,
 		69*haversine(latitude,longitude,latpoint, longpoint) AS distance_in_miles
 	FROM military_installations
 	JOIN (
@@ -47,12 +42,12 @@ $sql = "
 	ORDER BY distance_in_miles
 	LIMIT 5
 ";
-  
-$result = $db->query($sql);
+
+$result = $Conn->query($sql);
 
 $Data = array();
 
-while($row = $result->fetch_assoc()){
+while($row = $result->fetch(PDO::FETCH_ASSOC)){
 	if($debug){
 		print_r($row);
 	}
@@ -60,7 +55,7 @@ while($row = $result->fetch_assoc()){
 		$row['Poly'] = array();
 		for($i=1;$i<=$row['Multi'];$i++){
 		    $sql = "SELECT AsText(GeometryN(SHAPE,{$i})) as P
-				    FROM military_installations 
+				    FROM military_installations
 				    WHERE OGR_FID = '{$row['OGR_FID']}'";
 			$result2 = $db->query($sql);
 			$row2 = $result2->fetch_assoc();
@@ -82,29 +77,29 @@ function GetEarthQuakesWithinGeometry($db,$Geometry){
 		FROM `earth_quakes`
 		WHERE WITHIN(Point,GeomFromText({$Geometry}))
 	";
-	
-	$result = $db->query($sql);
+
+	$result = $Conn->query($sql);
 
 	$Data = array();
-	
-	while($row = $result->fetch_assoc()){
+
+	while($row = $result->fetch(PDO::FETCH_ASSOC)){
 		$Data[] = $row['Poly'];
 	}
-	
+
 	return $Data;
 }
 
 function GetCountryContainsPoint($db,$Lat,$Lon){
 	$sql = "
 		SELECT asText(SHAPE)
-		FROM world_borders A 
+		FROM world_borders A
 		WHERE CONTAINS(A.SHAPE,GeomFromText('POINT({$Lon} {$Lat})'))
 	";
 
-	$result = $db->query($sql);
+	$result = $Conn->query($sql);
 
-	$row = $result->fetch_assoc();
-	
+	$row = $result->fetch(PDO::FETCH_ASSOC);
+
 	return $row['SHAPE'];
 
 }
@@ -112,14 +107,14 @@ function GetCountryContainsPoint($db,$Lat,$Lon){
 function GetStatePolyContainsPoint($db,$Lat,$Lon){
 	$sql = "
 		SELECT state,asText(SHAPE) as SHAPE
-		FROM state_borders A 
+		FROM state_borders A
 		WHERE CONTAINS(A.SHAPE,GeomFromText('POINT({$Lon} {$Lat})'))
 	";
 
 	$result = $db->query($sql);
 
-	$row = $result->fetch_assoc();
-	
+	$row = $result->fetch(PDO::FETCH_ASSOC);
+
 	return $row['SHAPE'];
 
 }
@@ -145,4 +140,12 @@ function random_color() {
     return random_color_part() . random_color_part() . random_color_part();
 }
 
-
+function getFeatures(){
+    $sql = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname = 'public'";
+    $result = $db->query($sql);
+    $TableArray = array();
+    while($row = $result->fetch(PDO::FETCH_ASSOC)){
+        $TableArray[] = $row['tablename'];
+    }
+    echo json_encode($TableArray);
+}

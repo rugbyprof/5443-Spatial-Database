@@ -21,12 +21,12 @@
 			margin-left: 15%;
 			padding: 20px;
 			height: 600px;
-            
+
 		}
     </style>
     <!-- Include Google Maps Api to generate maps -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    
+
     <!-- Include Jquery to help with simplifying javascript syntax  -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="./geo.js"></script>
@@ -47,8 +47,18 @@
         LowerRight:<br>
         &nbsp;&nbsp;&nbsp;Lat: <span id="lat2"></span><br>
         &nbsp;&nbsp;&nbsp;Lon: <span id="lon2"></span><br>
+        Data Sources:<br>
+        <?php
+            $Conn = new PDO("pgsql:host=localhost;dbname=5443","5443","5443");
+            $sql = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname = 'public'";
+            $result = $db->query($sql);
+            $TableArray = array();
+            while($row = $result->fetch(PDO::FETCH_ASSOC)){
+                echo"&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" name=\"sources[]\" id=\"$row['tablename']\" checked><br>";
+            }
+
+        ?>
 	</div>
   </section>
   </body>
 </html>
-
