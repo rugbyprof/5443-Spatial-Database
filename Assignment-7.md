@@ -38,7 +38,42 @@ Create a folder called `Assignment7` in your `public_html` folder. In this folde
     3. Display all items within `r` distance from `P`. Draw a circle around this area.
     4. For each ship port, find the closest railway station.
 
-#### 4) Building our database:
+#### 4) What 
+
+#### 5) Sql Examples:
+
+```sql
+SELECT *
+FROM state_buildings
+WHERE state_buildings.wkb_geometry && ST_MakeEnvelope(-124.74288940429688,41.902277040963696, -113.49288940429688,32.02670629333614 );
+```
+
+```sql
+-- && = intersects
+-- @ = contains
+SELECT *
+FROM   earthquakes
+WHERE  earthquakes.wkb_geometry 
+    @
+    ST_MakeEnvelope (
+        -124.74288940429688,41.902277040963696,  
+        -113.49288940429688,32.02670629333614, 
+        4326)
+```
+
+Slow??
+```sql
+-- Multiply radius_mi * 1609.34 to get result in kilometers
+SELECT *
+FROM state_buildings
+WHERE ST_Distance_Sphere(state_buildings.wkb_geometry, ST_MakePoint(your_lon,your_lat)) <= radius_mi
+```
+
+End Assignment
+
+-----
+
+#### Gathering and combining the shape files (side note):
 
 ```php
 #Build array that holds the table structures of each shapefile
